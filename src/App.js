@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [persons, setPersons] = useState([{ name: "Rysbekova Kamila" }]);
+
+    const [newName, setNewName] = useState("");
+
+    const addPerson = (event) => {
+        event.preventDefault();
+        const personsObject = {
+            name: newName,
+        };
+        const personss = persons.find((p) => {
+          return p.name.toLowerCase() === newName.toLowerCase()
+        })
+        if(personss) {
+          alert("Такой рльзователь уже")
+        }
+        setPersons(persons.concat(personsObject));
+        setNewName("");
+    };
+    return (
+        <div className="App">
+            <h1>Пользователь</h1>
+            <form onSubmit={addPerson}>
+                <input
+                    type="text"
+                    placeholder="person"
+                    value={newName}
+                    onChange={(event) => setNewName(event.target.value)}
+                />
+                <input type="submit" value="Добавить пользователя" />
+            </form>
+            <div>
+                {persons.map((person) => {
+                    return (
+                      <p key={person.name}>{person.name}</p>
+                      )
+                })}
+            </div>
+        </div>
+    );
 }
 
 export default App;
